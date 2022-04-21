@@ -1,25 +1,29 @@
-import React from "react";
+import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-
 import Snack from "../components/Snack";
 import { snackUpdate } from "../redux/actions/action";
 
 const SnackDept = () => {
-  const snackData = useSelector((state) => state.snack.snackData.slice(0,2));
+  const snackData = useSelector((state) => state.snack.snackData);
   const dispatch = useDispatch();
 
   console.log("SNACK RENDER");
 
+  const [ clickedSnack, setClickedSnack ] = useState();
+
   const handleQuantity = (operator, id) => {
     //dispatch to redux store
     dispatch(snackUpdate(operator, id));
+    setClickedSnack(id)
   };
 
-  const getRandomColor = () => {
+  const getRandomColor = (id) => {
     let color ="#"
     let letter = "0123456789ABCDEF"
-    for(let i = 0; i < 6; i++){
-      color += letter[Math.floor(Math.random() * 16)]
+    if(clickedSnack === id) {
+      for(let i = 0; i < 6; i++){
+        color += letter[Math.floor(Math.random() * 16)]
+      }
     }
     return color
   }
@@ -28,7 +32,7 @@ const SnackDept = () => {
     <>
       <h1>Snack Department</h1>
       <div className="card-group">
-        {snackData.map((snack) => (
+        {snackData.slice(0,2).map((snack) => (
           <Snack key={snack.id} snack={snack} handleQuantity={handleQuantity} getRandomColor={getRandomColor} />
         ))}
       </div>

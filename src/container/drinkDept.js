@@ -12,7 +12,7 @@ const DrinkDept = () => {
 
   const handleQuantity = (operator, id) => {
     //dispatch to redux store
-    dispatch(drinkUpdate(operator, id));
+      dispatch(drinkUpdate(operator, id));
   };
 
   return (
